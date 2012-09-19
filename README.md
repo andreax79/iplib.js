@@ -76,3 +76,54 @@ Get the number of IPs of the network:
 ```js
 c.getIpNumber()
 ```
+
+Get the CIDR IP address and netmask in different styles:
+```js
+c.ip.getDec() // e.g. 3232235520
+c.ip.getDot() // e.g. 192.168.0.0
+c.ip.getBin() // e.g. 11000000101010000000000000000000
+c.nm.getDec() // e.g. 4294967040
+c.nm.getDot() // e.g. 255.255.255.0
+c.nm.getBit() // e.g. 11111111111111111111111100000000
+c.nm.getBits() // e.g. 24
+```
+
+Check if the given address in amongst the usable addresses.
+
+```js
+var c = new $.CIDR("192.168.0.0/24");
+c.isValidIp("192.168.0.2");
+```
+
+Check if one CIDR is contained in another one.
+
+```js
+var c = new $.CIDR("192.168.0.0/24");
+c.isValidIp("192.168.0.0/29");
+```
+
+## IPv4Address
+
+Create IPv4Address instances, same address, different styles:
+```js
+var c = new $.IPv4Address("172.16.20.2");
+var d = new $.IPv4Address("172.16.20.2", $.IP_DOT);
+var e = new $.IPv4Address("10101100000100000001010000000010");
+var f = new $.IPv4Address("10101100000100000001010000000010", $.IP_BIN);
+var g = new $.IPv4Address(2886734850);
+var h = new $.IPv4Address(2886734850, $.IP_DEC);
+
+```
+
+Compare the two IPv4Address object:
+
+```js
+c.equals(d)
+```
+
+Get the IP address in different styles:
+```js
+c.ip.getDec() // e.g. 2886734850
+c.ip.getDot() // e.g. 172.16.20.2
+c.ip.getBin() // e.g. 10101100000100000001010000000010
+```
