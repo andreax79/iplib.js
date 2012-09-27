@@ -28,32 +28,129 @@
         </ul>
       </header>
       <section>
-        <h3>Welcome to GitHub Pages.</h3>
+        <h1>iplib.js</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>IPlib.js is a JavaScript library very inspired by the IPlib python module useful
+to convert amongst many different notations and to manage couples of
+address/netmask in the CIDR notation.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>jQuery isn't required for this plugin, because nothing internal uses any jQuery methods.
+jQuery is just used as a namespace under which these class can exist.</p>
+
+<h1>Copyright</h1>
+
+<pre><code>Copyright (c) 2012 Endian
+Endian GmbH/Srl
+Bergweg 41 Via Monte
+39057 Eppan/Appiano
+ITALIEN/ITALIA
+info@endian.com
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>IPlib.js is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published
+  by the Free Software Foundation, either version 2.1 of the License, or
+  (at your option) any later version.</p>
 
-<h3>Designer Templates</h3>
+<p>IPlib.js is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>You should have received a copy of the GNU Lesser General Public License
+  along with IPlib.js.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>. </p>
 
-<h3>Rather Drive Stick?</h3>
+<p>Author: Andrea Bonomi <a href="mailto:a.bonomi@endian.com">a.bonomi@endian.com</a></p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<h1>Usage</h1>
 
-<h3>Authors and Contributors</h3>
+<p>Include the JavaScript library in your HTML markup:</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<pre><code>&lt;script type="text/javascript" src="iplib.js"&gt;&lt;/script&gt;
+</code></pre>
 
-<h3>Support or Contact</h3>
+<p>Optionally include jQuery. If you include jQuery, you have to use the $. prefix
+before the iplib.js classes names.
+All the examples assume you are using jQuery.</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<h2>CIDR</h2>
+
+<p>Create CIDR instances, same address, different styles:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">CIDR</span><span class="p">(</span><span class="s2">"192.168.0.0/24"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">CIDR</span><span class="p">(</span><span class="s2">"192.168.0.0/255.255.255.0"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">CIDR</span><span class="p">(</span><span class="s2">"11000000101010000000000000000000/24"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">CIDR</span><span class="p">(</span><span class="s2">"11000000101010000000000000000000/255.255.255.0"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">CIDR</span><span class="p">(</span><span class="s2">"11000000101010000000000000000000/11111111111111111111111100000000"</span><span class="p">);</span>
+
+</pre></div>
+
+<p>Compare the two CIDR object:</p>
+
+<div class="highlight"><pre><span class="nx">c</span><span class="p">.</span><span class="nx">equals</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span>
+</pre></div>
+
+<p>Get the network IP, netmask, first IP, last IP, and broadcast address:</p>
+
+<div class="highlight"><pre><span class="nx">c</span><span class="p">.</span><span class="nx">getNetworkIp</span><span class="p">()</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">getNetmask</span><span class="p">()</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">getFirstIp</span><span class="p">()</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">getLastIp</span><span class="p">()</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">getBroadcastIp</span><span class="p">()</span>
+</pre></div>
+
+<p>Get the number of IPs of the network:</p>
+
+<div class="highlight"><pre><span class="nx">c</span><span class="p">.</span><span class="nx">getIpNumber</span><span class="p">()</span>
+</pre></div>
+
+<p>Get the CIDR IP address and netmask in different styles:</p>
+
+<div class="highlight"><pre><span class="nx">c</span><span class="p">.</span><span class="nx">ip</span><span class="p">.</span><span class="nx">getDec</span><span class="p">()</span> <span class="c1">// e.g. 3232235520</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">ip</span><span class="p">.</span><span class="nx">getDot</span><span class="p">()</span> <span class="c1">// e.g. 192.168.0.0</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">ip</span><span class="p">.</span><span class="nx">getBin</span><span class="p">()</span> <span class="c1">// e.g. 11000000101010000000000000000000</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">nm</span><span class="p">.</span><span class="nx">getDec</span><span class="p">()</span> <span class="c1">// e.g. 4294967040</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">nm</span><span class="p">.</span><span class="nx">getDot</span><span class="p">()</span> <span class="c1">// e.g. 255.255.255.0</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">nm</span><span class="p">.</span><span class="nx">getBit</span><span class="p">()</span> <span class="c1">// e.g. 11111111111111111111111100000000</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">nm</span><span class="p">.</span><span class="nx">getBits</span><span class="p">()</span> <span class="c1">// e.g. 24</span>
+</pre></div>
+
+<p>Check if the given address in amongst the usable addresses.</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">CIDR</span><span class="p">(</span><span class="s2">"192.168.0.0/24"</span><span class="p">);</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">isValidIp</span><span class="p">(</span><span class="s2">"192.168.0.2"</span><span class="p">);</span>
+</pre></div>
+
+<p>Check if one CIDR is contained in another one.</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">CIDR</span><span class="p">(</span><span class="s2">"192.168.0.0/24"</span><span class="p">);</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">isValidIp</span><span class="p">(</span><span class="s2">"192.168.0.0/29"</span><span class="p">);</span>
+</pre></div>
+
+<h2>IPv4Address</h2>
+
+<p>Create IPv4Address instances, same address, different styles:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">IPv4Address</span><span class="p">(</span><span class="s2">"172.16.20.2"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">IPv4Address</span><span class="p">(</span><span class="s2">"172.16.20.2"</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">IP_DOT</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">IPv4Address</span><span class="p">(</span><span class="s2">"10101100000100000001010000000010"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">IPv4Address</span><span class="p">(</span><span class="s2">"10101100000100000001010000000010"</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">IP_BIN</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">IPv4Address</span><span class="p">(</span><span class="mi">2886734850</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">$</span><span class="p">.</span><span class="nx">IPv4Address</span><span class="p">(</span><span class="mi">2886734850</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">IP_DEC</span><span class="p">);</span>
+
+</pre></div>
+
+<p>Compare the two IPv4Address object:</p>
+
+<div class="highlight"><pre><span class="nx">c</span><span class="p">.</span><span class="nx">equals</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span>
+</pre></div>
+
+<p>Get the IP address in different styles:</p>
+
+<div class="highlight"><pre><span class="nx">c</span><span class="p">.</span><span class="nx">ip</span><span class="p">.</span><span class="nx">getDec</span><span class="p">()</span> <span class="c1">// e.g. 2886734850</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">ip</span><span class="p">.</span><span class="nx">getDot</span><span class="p">()</span> <span class="c1">// e.g. 172.16.20.2</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">ip</span><span class="p">.</span><span class="nx">getBin</span><span class="p">()</span> <span class="c1">// e.g. 10101100000100000001010000000010</span>
+</pre></div>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/andreax79">andreax79</a></p>
