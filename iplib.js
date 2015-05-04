@@ -34,6 +34,7 @@
  */
 
 (function(window,undefined){
+  "use strict";
 
   // Use 'jQuery' as the namespace only if it already exists
   var $ = window.jQuery || window;
@@ -46,9 +47,9 @@
   //IP_OCT  = 4; // 030052000052
   $.IP_DEC  = 5; // 3232235562
   $.IP_BITS = 6; // 26
-  
+ 
   // This dictionary maps NM_BITS to NM_DEC values
-  VALID_NETMASKS = {  0:  0,
+  var VALID_NETMASKS = {  0:  0,
                       1:  2147483648,  2: 3221225472,  3: 3758096384,
                       4:  4026531840,  5: 4160749568,  6: 4227858432,
                       7:  4261412864,  8: 4278190080,  9: 4286578688,
@@ -59,13 +60,13 @@
                       22: 4294966272, 23: 4294966784, 24: 4294967040,
                       25: 4294967168, 26: 4294967232, 27: 4294967264,
                       28: 4294967280, 29: 4294967288, 30: 4294967292,
-                      31: 4294967294, 32: 4294967295 }
-  
+                      31: 4294967294, 32: 4294967295 };
+ 
   var NETMASKS_INV = {};
   for (var i=0; i<=32; i++) {
       NETMASKS_INV[VALID_NETMASKS[i]] = i;
   }
-  
+ 
   function isDot(ip) {
       /* Return true if the IP address is in dotted decimal notation */
       try {    
@@ -73,7 +74,7 @@
           if (octets.length != 4)
               return false;
           for (var i=0; i<octets.length; i++) {
-              val = parseInt(octets[i]);
+              var val = parseInt(octets[i]);
               if (isNaN(val) || val < 0 || val > 255)
                   return false;
           }
@@ -85,7 +86,7 @@
   
   function dotToDec(ip, check) {
       /* Dotted decimal notation to decimal conversion */
-      if ((check || check == undefined) && !isDot(ip))
+      if ((check || check === undefined) && !isDot(ip))
           throw "invalid IP: " + ip;
       var octets = ip.split(/\./g);
       var dec = 0;
@@ -115,7 +116,7 @@
   
   function bitsToDec(nm, check) {
       /* Bits to decimal conversion */
-      if ((check || check == undefined) && !isBitsNm(nm))
+      if ((check || check === undefined) && !isBitsNm(nm))
           throw "invalid netmask: " + nm;
       var bits = parseInt(nm);
       return VALID_NETMASKS[bits];
@@ -148,9 +149,9 @@
 
   function binToDec(ip, check) {
       /* Binary to decimal conversion. */
-      if ((check || check == undefined) && !isBin(ip))
+      if ((check || check === undefined) && !isBin(ip))
           throw "invalid: " + ip;
-      result = 0;
+      var result = 0;
       for (var i=0; i<ip.length; i++) {
          result = ((result << 1) + ((ip[i] == "1") ? 1 : 0)) >>> 0;
       }
@@ -170,7 +171,7 @@
   
   function decToDec(ip, check) {
       /* Decimal to decimal conversion. */
-      if ((check || check == undefined) && !isDec(ip))
+      if ((check || check === undefined) && !isDec(ip))
           throw "invalid: x" + ip;
       return parseInt(ip);
   }
@@ -219,7 +220,7 @@
           return String(this) == String(other);
       };
       this.set(ip, notation);
-  }
+  };
   
   $.IPv4NetMask = function(nm, notation) {
       /*
@@ -237,15 +238,15 @@
           } else if (notation == $.IP_BITS) {
               this.nmDec = bitsToDec(nm);
           } else {
-	      // guess the notation
-	      if (isBin(nm)) {
+              // guess the notation
+              if (isBin(nm)) {
                   this.nmDec = binToDec(nm);
               } else if (isDot(nm)) {
                   this.nmDec = dotToDec(nm);
               } else {
                   this.nmDec = bitsToDec(nm);
               }
-          };
+          }
           this.nm = decToBits(this.nmDec);
       };
       this.getDec = function() {
@@ -259,7 +260,7 @@
       this.getBin = function() {
           /* Return the binary notation of the netmask */
           return decToBin(this.nmDec);
-      }
+      };
       this.getBits = function() {
           /* Return the bits notation of the netmask */ 
           return this.nm;
@@ -272,7 +273,7 @@
           return String(this) == String(other);
       };
       this.set(nm, notation);
-  }
+  };
   
   $.CIDR = function(cidr) {
       this.set = function(cidr) {
@@ -292,7 +293,7 @@
           this.netIp = new $.IPv4Address(this.netIpDec, $.IP_DEC);
           this.ipNum = 0xFFFFFFFF - 1 - nml;
           // This's here to handle /32 (-1) and /31 (0) netmasks
-          if (this.ipNum == -1 || this.ipNum == 0) {
+          if (this.ipNum == -1 || this.ipNum === 0) {
               if (this.ipNum == -1) {
                   this.ipNum = 1;
               } else {
@@ -329,7 +330,7 @@
            * Return true if the given address in amongst the usable addresses,
            * or if the given CIDR is contained in this one.
            */
-          if (!(ip instanceof $.IPv4Address) && !(ip instanceof $.CIDR)) { 
+          if (!(ip instanceof $.IPv4Address) && !(ip instanceof $.CIDR)) {
               if (ip.indexOf('/') == -1) {
                   ip = new $.IPv4Address(ip);
               } else {
@@ -339,7 +340,7 @@
           if (ip instanceof $.IPv4Address) {
               return ip.ipDec >= this.firstIpDec && ip.ipDec <= this.lastIpDec;
           } else if (ip instanceof $.CIDR) {
-              return ip.firstIpDec >= this.firstIpDec && ip.lastIpDec <= this.lastIpDec;        
+              return ip.firstIpDec >= this.firstIpDec && ip.lastIpDec <= this.lastIpDec;
           } else {
               return false;
           }
@@ -347,7 +348,7 @@
       this.getIp = function() {
           /* Return the given address. */
           return this.ip;
-      };  
+      };
       this.getNetmask = function() {
           /* Return the netmask. */
           return this.nm;
@@ -378,8 +379,8 @@
       this.equals = function(other) {
           /* Compare this CIDR object with another object */
           return String(this) == String(other);
-      }
+      };
       this.set(cidr);
-  }
+  };
 
 })(this);
