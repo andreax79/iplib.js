@@ -37,16 +37,21 @@
   "use strict";
 
   // Use 'jQuery' as the namespace only if it already exists
-  var $ = window.jQuery || window;
+  var root;
+  if( typeof exports !== 'undefined' ) {
+    root = {};
+  } else {
+    root = window.jQuery || window;
+  }
 
   // Notation types
-  //$.IP_UNKNOWN = 0;
-  $.IP_DOT  = 1; // 192.168.0.42
+  //root.IP_UNKNOWN = 0;
+  root.IP_DOT  = 1; // 192.168.0.42
   //IP_HEX  = 2; // 0xC0A8002A
-  $.IP_BIN  = 3; // 11000000101010000000000000101010
+  root.IP_BIN  = 3; // 11000000101010000000000000101010
   //IP_OCT  = 4; // 030052000052
-  $.IP_DEC  = 5; // 3232235562
-  $.IP_BITS = 6; // 26
+  root.IP_DEC  = 5; // 3232235562
+  root.IP_BITS = 6; // 26
  
   // This dictionary maps NM_BITS to NM_DEC values
   var VALID_NETMASKS = {  0:  0,
@@ -176,17 +181,17 @@
       return parseInt(ip);
   }
 
-  $.IPv4Address = function(ip, notation) {
+  root.IPv4Address = function(ip, notation) {
       /*
        * An IPv4 Internet address.
        * This class represents an IPv4 Internet address.
        */
       this.set = function(ip, notation) {
-          if (notation == $.IP_DEC) {
+          if (notation == root.IP_DEC) {
               this.ipDec = decToDec(ip);
-          } else if (notation == $.IP_BIN) {
+          } else if (notation == root.IP_BIN) {
               this.ipDec = binToDec(ip);
-          } else if (notation == $.IP_DOT) {
+          } else if (notation == root.IP_DOT) {
               this.ipDec = dotToDec(ip);
           } else {
               // guess the notation
@@ -222,20 +227,20 @@
       this.set(ip, notation);
   };
   
-  $.IPv4NetMask = function(nm, notation) {
+  root.IPv4NetMask = function(nm, notation) {
       /*
        * An IPv4 Internet netmask.
        * This class represents an IPv4 Internet netmask.
        */
       this.set = function(nm, notation) {
-          if (notation == $.IP_DEC) {
+          if (notation == root.IP_DEC) {
               nm = nm >>> 0;
               if (nm < 0 || nm > 0x100000000)
                   throw "invalid: " + nm; 
               this.nmDec = nm;
-          } else if (notation == $.IP_BIN) {
+          } else if (notation == root.IP_BIN) {
               this.nmDec = binToDec(nm);
-          } else if (notation == $.IP_BITS) {
+          } else if (notation == root.IP_BITS) {
               this.nmDec = bitsToDec(nm);
           } else {
               // guess the notation
@@ -275,7 +280,7 @@
       this.set(nm, notation);
   };
   
-  $.CIDR = function(cidr) {
+  root.CIDR = function(cidr) {
       this.set = function(cidr) {
           var s;
           try {
@@ -285,12 +290,12 @@
           }
           if (s.length != 2)
               throw "invalid CIDR: " + cidr;
-          this.ip = new $.IPv4Address(s[0]);
-          this.nm = new $.IPv4NetMask(s[1]);
+          this.ip = new root.IPv4Address(s[0]);
+          this.nm = new root.IPv4NetMask(s[1]);
           var ipl = this.ip.ipDec;
           var nml = this.nm.nmDec;
           this.netIpDec = (ipl & nml) >>> 0;
-          this.netIp = new $.IPv4Address(this.netIpDec, $.IP_DEC);
+          this.netIp = new root.IPv4Address(this.netIpDec, root.IP_DEC);
           this.ipNum = 0xFFFFFFFF - 1 - nml;
           // This's here to handle /32 (-1) and /31 (0) netmasks
           if (this.ipNum == -1 || this.ipNum === 0) {
@@ -304,25 +309,25 @@
               this.bcIp = null;
               // first ip
               this.firstIpDec = this.netIpDec;
-              this.firstIp = new $.IPv4Address(this.firstIpDec, $.IP_DEC);
+              this.firstIp = new root.IPv4Address(this.firstIpDec, root.IP_DEC);
               // last ip
               if (this.ipNum == 1) {
                   this.lastIpDec = this.firstIpDec;
                   this.lastIp = this.firstIp;
               } else {
                   this.lastIpDec = this.firstIpDec + 1;
-                  this.lastIp = new $.IPv4Address(this.lastIpDec, $.IP_DEC);
+                  this.lastIp = new root.IPv4Address(this.lastIpDec, root.IP_DEC);
               }
           } else {
               // broadcast address
               this.bcIpDec = this.netIpDec + this.ipNum + 1;
-              this.bcIp = new $.IPv4Address(this.bcIpDec, $.IP_DEC);
+              this.bcIp = new root.IPv4Address(this.bcIpDec, root.IP_DEC);
               // first ip
               this.firstIpDec = this.netIpDec + 1;
-              this.firstIp = new $.IPv4Address(this.firstIpDec, $.IP_DEC);
+              this.firstIp = new root.IPv4Address(this.firstIpDec, root.IP_DEC);
               // last ip
               this.lastIpDec = this.netIpDec + this.ipNum;
-              this.lastIp = new $.IPv4Address(this.lastIpDec, $.IP_DEC);
+              this.lastIp = new root.IPv4Address(this.lastIpDec, root.IP_DEC);
           }
       };
       this.isValidIp = function(ip) {
@@ -330,16 +335,16 @@
            * Return true if the given address in amongst the usable addresses,
            * or if the given CIDR is contained in this one.
            */
-          if (!(ip instanceof $.IPv4Address) && !(ip instanceof $.CIDR)) {
+          if (!(ip instanceof root.IPv4Address) && !(ip instanceof root.CIDR)) {
               if (ip.indexOf('/') == -1) {
-                  ip = new $.IPv4Address(ip);
+                  ip = new root.IPv4Address(ip);
               } else {
-                  ip = new $.CIDR(ip);
+                  ip = new root.CIDR(ip);
               }
           }
-          if (ip instanceof $.IPv4Address) {
+          if (ip instanceof root.IPv4Address) {
               return ip.ipDec >= this.firstIpDec && ip.ipDec <= this.lastIpDec;
-          } else if (ip instanceof $.CIDR) {
+          } else if (ip instanceof root.CIDR) {
               return ip.firstIpDec >= this.firstIpDec && ip.lastIpDec <= this.lastIpDec;
           } else {
               return false;
@@ -382,5 +387,11 @@
       };
       this.set(cidr);
   };
+
+  if ( typeof exports !== 'undefined' ) {
+    if ( typeof module !== 'undefined' && module.exports ) {
+      exports = module.exports = root;
+    }
+  }  
 
 })(this);
