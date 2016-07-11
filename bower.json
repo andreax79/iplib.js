@@ -1,0 +1,29 @@
+{
+  "name": "iplib",
+  "main": "iplib.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/andreax79/iplib.js",
+  "authors": [
+    "Andrea Bonomi <andrea.bonomi@gmail.com>"
+  ],
+  "description": "IPlib.js is a JavaScript library very inspired by the IPlib python module useful to convert amongst many different notations and to manage couples of address/netmask in the CIDR notation.",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "ip",
+    "address",
+    "notation",
+    "netmask",
+    "cidr"
+  ],
+  "license": "GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
