@@ -4,16 +4,12 @@ IPlib.js is a JavaScript library very inspired by the IPlib python module useful
 to convert amongst many different notations and to manage couples of
 address/netmask in the CIDR notation.
 
-jQuery isn't required for this plugin, because nothing internal uses any jQuery methods.
-jQuery is just used as a namespace under which these class can exist.
-
 # Copyright
-    Copyright (c) 2012 Endian
-    Endian GmbH/Srl
-    Bergweg 41 Via Monte
-    39057 Eppan/Appiano
-    ITALIEN/ITALIA
-    info@endian.com
+    Copyright (c) 2012-2017 Endian S.p.A. <info@endian.com>
+    Endian S.p.A.
+    via Pillhof 47
+    39057 Appiano (BZ)
+    Italy
 
   IPlib.js is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published
@@ -38,20 +34,16 @@ Include the JavaScript library in your HTML markup:
 <script type="text/javascript" src="iplib.js"></script>
 ```
 
-Optionally include jQuery. If you include jQuery, you have to use the $. prefix
-before the iplib.js classes names.
-All the examples assume you are using jQuery.
-
 ## CIDR
 
 Create CIDR instances, same address, different styles:
 
 ```js
-var c = new $.CIDR("192.168.0.0/24");
-var d = new $.CIDR("192.168.0.0/255.255.255.0");
-var e = new $.CIDR("11000000101010000000000000000000/24");
-var f = new $.CIDR("11000000101010000000000000000000/255.255.255.0");
-var g = new $.CIDR("11000000101010000000000000000000/11111111111111111111111100000000");
+var c = new iplib.CIDR("192.168.0.0/24");
+var d = new iplib.CIDR("192.168.0.0/255.255.255.0");
+var e = new iplib.CIDR("11000000101010000000000000000000/24");
+var f = new iplib.CIDR("11000000101010000000000000000000/255.255.255.0");
+var g = new iplib.CIDR("11000000101010000000000000000000/11111111111111111111111100000000");
 
 ```
 
@@ -91,14 +83,14 @@ c.nm.getBits() // e.g. 24
 Check if the given address in amongst the usable addresses.
 
 ```js
-var c = new $.CIDR("192.168.0.0/24");
+var c = new iplib.CIDR("192.168.0.0/24");
 c.isValidIp("192.168.0.2");
 ```
 
 Check if one CIDR is contained in another one.
 
 ```js
-var c = new $.CIDR("192.168.0.0/24");
+var c = new iplib.CIDR("192.168.0.0/24");
 c.isValidIp("192.168.0.0/29");
 ```
 
@@ -106,12 +98,12 @@ c.isValidIp("192.168.0.0/29");
 
 Create IPv4Address instances, same address, different styles:
 ```js
-var c = new $.IPv4Address("172.16.20.2");
-var d = new $.IPv4Address("172.16.20.2", $.IP_DOT);
-var e = new $.IPv4Address("10101100000100000001010000000010");
-var f = new $.IPv4Address("10101100000100000001010000000010", $.IP_BIN);
-var g = new $.IPv4Address(2886734850);
-var h = new $.IPv4Address(2886734850, $.IP_DEC);
+var c = new iplib.IPv4Address("172.16.20.2");
+var d = new iplib.IPv4Address("172.16.20.2", iplib.IP_DOT);
+var e = new iplib.IPv4Address("10101100000100000001010000000010");
+var f = new iplib.IPv4Address("10101100000100000001010000000010", iplib.IP_BIN);
+var g = new iplib.IPv4Address(2886734850);
+var h = new iplib.IPv4Address(2886734850, iplib.IP_DEC);
 
 ```
 
