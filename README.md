@@ -98,7 +98,7 @@ Get all the IP addresses.
 
 ```js
 const c = new iplib.CIDR("192.168.0.0/24");
-for (const ip of c) {
+for (const ip of c.getAllValidIp() {
   console.log(ip);
 }
 ```
