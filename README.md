@@ -39,11 +39,11 @@ Include the JavaScript library in your HTML markup:
 Create CIDR instances, same address, different styles:
 
 ```js
-var c = new iplib.CIDR("192.168.0.0/24");
-var d = new iplib.CIDR("192.168.0.0/255.255.255.0");
-var e = new iplib.CIDR("11000000101010000000000000000000/24");
-var f = new iplib.CIDR("11000000101010000000000000000000/255.255.255.0");
-var g = new iplib.CIDR("11000000101010000000000000000000/11111111111111111111111100000000");
+const c = new iplib.CIDR("192.168.0.0/24");
+const d = new iplib.CIDR("192.168.0.0/255.255.255.0");
+const e = new iplib.CIDR("11000000101010000000000000000000/24");
+const f = new iplib.CIDR("11000000101010000000000000000000/255.255.255.0");
+const g = new iplib.CIDR("11000000101010000000000000000000/11111111111111111111111100000000");
 
 ```
 
@@ -83,27 +83,36 @@ c.nm.getBits() // e.g. 24
 Check if the given address in amongst the usable addresses.
 
 ```js
-var c = new iplib.CIDR("192.168.0.0/24");
+const c = new iplib.CIDR("192.168.0.0/24");
 c.isValidIp("192.168.0.2");
 ```
 
 Check if one CIDR is contained in another one.
 
 ```js
-var c = new iplib.CIDR("192.168.0.0/24");
+const c = new iplib.CIDR("192.168.0.0/24");
 c.isValidIp("192.168.0.0/29");
+```
+
+Get all the IP addresses.
+
+```js
+const c = new iplib.CIDR("192.168.0.0/24");
+for (const ip of c) {
+  console.log(ip);
+}
 ```
 
 ## IPv4Address
 
 Create IPv4Address instances, same address, different styles:
 ```js
-var c = new iplib.IPv4Address("172.16.20.2");
-var d = new iplib.IPv4Address("172.16.20.2", iplib.IP_DOT);
-var e = new iplib.IPv4Address("10101100000100000001010000000010");
-var f = new iplib.IPv4Address("10101100000100000001010000000010", iplib.IP_BIN);
-var g = new iplib.IPv4Address(2886734850);
-var h = new iplib.IPv4Address(2886734850, iplib.IP_DEC);
+const c = new iplib.IPv4Address("172.16.20.2");
+const d = new iplib.IPv4Address("172.16.20.2", iplib.IP_DOT);
+const e = new iplib.IPv4Address("10101100000100000001010000000010");
+const f = new iplib.IPv4Address("10101100000100000001010000000010", iplib.IP_BIN);
+const g = new iplib.IPv4Address(2886734850);
+const h = new iplib.IPv4Address(2886734850, iplib.IP_DEC);
 
 ```
 
