@@ -1,6 +1,6 @@
 {
   "name": "iplib-js",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "IPlib.js is a JavaScript library very inspired by the IPlib python module useful to convert amongst many different notations and to manage couples of address/netmask in the CIDR notation.",
   "main": "iplib.js",
   "directories": {
