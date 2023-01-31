@@ -381,6 +381,14 @@
             /* Return the number of usable IP addresses. */
             return this.ipNum;
         };
+        this.getAllValidIp = function*() {
+            /* Return a generator of IPv4Address objects, one for every usable IP */
+            var index = 0;
+            while (index < this.ipNum) {
+                yield new iplib.IPv4Address(this.ip.getDec() + index + 1, iplib.IP_DEC);
+                index++;
+            }
+        }
         this.toString = function() {
             return this.netIp + "/" + this.nm;
         };
